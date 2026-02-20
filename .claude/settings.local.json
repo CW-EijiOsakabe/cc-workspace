@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch",
+      "WebSearch",
+      "Read(//Users/eiji.osakabe/.claude/**)",
+      "Read(//Users/eiji.osakabe/ai-settings/claudecode/commands/**)",
+      "Read(//Users/eiji.osakabe/ai-settings/claudecode/agents/**)",
+      "Read(//Users/eiji.osakabe/ai-settings/**)",
+      "Bash(ls:*)",
+      "Read(//Users/eiji.osakabe/**)",
+      "Bash(grep:*)",
+      "Bash(mkdir *)",
+      "Bash(mkdir -p *)",
+      "Bash(echo:*)"
+    ],
+    "additionalDirectories": [
+      "/Users/eiji.osakabe/src/gitlab.com/innopm-bak/ai-workspace/topics",
+      "/Users/eiji.osakabe/src/gitlab.com/innopm-bak/ai-workspace/.claude"
+    ]
+  }
+}
