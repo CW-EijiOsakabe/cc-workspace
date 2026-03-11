@@ -1,0 +1,9 @@
+{
+  "name": "agent-sim-helpers",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0"
+  }
+}

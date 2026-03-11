@@ -81,13 +81,13 @@ tools: Read, Write, Edit, Glob, Grep, WebSearch, WebFetch, AskUserQuestion
 
 最新トピックの検出:
 ```bash
-ls -td topics/*/ 2>/dev/null | head -1
+ls -td topics/sessions/*/ 2>/dev/null | head -1
 ```
 
 トピックが見つからない場合、エラーを返す:
 ```
 ❌ アクティブなトピックが見つかりません。
-まず /topic-new でトピックを作成してください。
+まず /topic:start でトピックを作成してください。
 ```
 
 ### Step 2: 入力タイプの判定
@@ -152,7 +152,7 @@ WebSearch({
 #### 5.1 conclusion.md の存在確認
 
 ```bash
-test -f topics/<folder>/conclusion.md && echo "exists"
+test -f topics/sessions/<folder>/conclusion.md && echo "exists"
 ```
 
 #### 5.2 セクション全体の把握（必須）
@@ -247,7 +247,7 @@ test -f topics/<folder>/conclusion.md && echo "exists"
 - [追加調査で見つけたリンク](URL3) ← 追記
 ```
 
-**注意**: conclusion.md が存在しない場合は、このステップをスキップする。初期調査の場合は `/topic-start` で暫定結論が作成されているはず。
+**注意**: conclusion.md が存在しない場合は、このステップをスキップする。初期調査の場合は `/topic:start` で暫定結論が作成されているはず。
 
 ### Step 6: 追加調査の提案
 
@@ -259,7 +259,7 @@ test -f topics/<folder>/conclusion.md && echo "exists"
 - <関連トピック2>: <なぜ調査すると良いか>
 
 追加調査するには:
-/topic-research <提案クエリ>
+/topic:research <提案クエリ>
 ```
 
 ---
@@ -293,7 +293,7 @@ test -f topics/<folder>/conclusion.md && echo "exists"
 同じ内容を重複して追記しないよう、追記前に確認:
 
 ```bash
-grep -i "<キーワード>" topics/<folder>/research.md
+grep -i "<キーワード>" topics/sessions/<folder>/research.md
 ```
 
 類似の調査が既に存在する場合:
@@ -348,7 +348,7 @@ AskUserQuestion({
 
 - **URL取得失敗**: 代替URLの検索を提案
 - **検索結果なし**: クエリの修正を提案
-- **トピック未選択**: `/topic-new` の実行を促す
+- **トピック未選択**: `/topic:start` の実行を促す
 - **research.md 不在**: テンプレートから新規作成
 
 ---
@@ -368,11 +368,11 @@ AskUserQuestion({
 - キーポイント: X件
 - 関連リンク: X件
 
-記録先: topics/<folder>/research.md
+記録先: topics/sessions/<folder>/research.md
 
 💡 次のステップ:
-- /topic-research <クエリ> で追加調査
-- /topic-archive でトピックをアーカイブ
+- /topic:research <クエリ> で追加調査
+- /topic:archive でトピックをアーカイブ
 ```
 
 ### conclusion.md が既に存在する場合（追加調査）
@@ -389,11 +389,11 @@ AskUserQuestion({
 - 関連リンク: X件
 
 更新ファイル:
-- topics/<folder>/research.md （調査メモ追記）
-- topics/<folder>/conclusion.md （既存セクションへの追記/新規セクション追加）
+- topics/sessions/<folder>/research.md （調査メモ追記）
+- topics/sessions/<folder>/conclusion.md （既存セクションへの追記/新規セクション追加）
 
 💡 次のステップ:
-- /topic-research <クエリ> でさらに追加調査
+- /topic:research <クエリ> でさらに追加調査
 - conclusion.md を確認して内容を確認
 ```
 

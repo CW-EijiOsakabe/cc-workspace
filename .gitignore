@@ -1,2 +1,15 @@
-topics/*
-index.md
+topics/index.md
+topics/sessions/*
+!topics/sessions/.gitkeep
+
+sims/sessions/*
+!sims/sessions/.gitkeep
+sims/node_modules/
+
+lab/sessions/*
+!lab/sessions/.gitkeep
+
+.build
+.tmp-pdf-tool
+.vscode
+.claude/settings.local.json

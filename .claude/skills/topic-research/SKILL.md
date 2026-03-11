@@ -1,8 +1,11 @@
 ---
-description: 調査実行（WebSearch/WebFetchで情報収集しresearch.mdに記録）
+name: topic-research
+description: "調査実行（WebSearch/WebFetchで情報収集しresearch.mdに記録）"
+user-invokable: true
+disable-model-invocation: true
 ---
 
-# topic-research: 調査実行コマンド
+# topic:research: 調査実行コマンド
 
 指定されたクエリまたはURLで調査を実行し、research.md に記録するコマンドなのだ。
 
@@ -38,7 +41,7 @@ User Inputから以下を判定:
 
 最新のトピックフォルダを特定:
 ```bash
-ls -td topics/*/ 2>/dev/null | head -1
+ls -td topics/sessions/*/ 2>/dev/null | head -1
 ```
 
 ---
@@ -87,8 +90,8 @@ Task({
 調査完了後、以下のコマンドが利用可能:
 
 ```
-/topic-research <追加クエリ>  # 追加調査（conclusion.mdにも追記）
-/topic-archive                # トピックをアーカイブ
+/topic:research <追加クエリ>  # 追加調査（conclusion.mdにも追記）
+/topic:archive                # トピックをアーカイブ
 ```
 
 ---

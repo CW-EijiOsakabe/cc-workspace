@@ -60,18 +60,18 @@ tools: Read, Write, Edit, Glob, Grep, LS, Bash, AskUserQuestion
 # 今日の日付を取得
 DATE=$(date +%Y%m%d)
 # フォルダ作成
-mkdir -p topics/${DATE}_<slug>
+mkdir -p topics/sessions/${DATE}_<slug>
 ```
 
-パス: `topics/YYYYMMDD_<slug>/`
+パス: `topics/sessions/YYYYMMDD_<slug>/`
 
 #### Step 3: テンプレートファイル生成
 
 以下の3ファイルを生成:
 
-1. **conclusion.md** - `templates/conclusion.template.md` から生成
-2. **research.md** - `templates/research.template.md` から生成
-3. **tasks.md** - `templates/tasks.template.md` から生成
+1. **conclusion.md** - `topics/templates/conclusion.template.md` から生成
+2. **research.md** - `topics/templates/research.template.md` から生成
+3. **tasks.md** - `topics/templates/tasks.template.md` から生成
 
 テンプレート変数の置換:
 
@@ -81,12 +81,12 @@ mkdir -p topics/${DATE}_<slug>
 | `{{DATE}}` | 今日の日付（YYYY-MM-DD形式） |
 | `{{TAGS}}` | 指定されたタグ（なければ空） |
 
-#### Step 4: index.md の更新
+#### Step 4: topics/index.md の更新
 
-`index.md` の「最近のトピック」セクション先頭に追加:
+`topics/index.md` の「最近のトピック」セクション先頭に追加:
 
 ```markdown
-- [トピック名](topics/YYYYMMDD_slug/) - #tag1 #tag2
+- [トピック名](topics/sessions/YYYYMMDD_slug/) - #tag1 #tag2
 ```
 
 #### Step 5: 完了報告
@@ -95,7 +95,7 @@ mkdir -p topics/${DATE}_<slug>
 📁 トピック作成完了
 
 トピック: <トピック名>
-フォルダ: topics/YYYYMMDD_slug/
+フォルダ: topics/sessions/YYYYMMDD_slug/
 タグ: <タグ一覧>
 
 作成されたファイル:
@@ -104,7 +104,7 @@ mkdir -p topics/${DATE}_<slug>
 - tasks.md
 
 💡 次のステップ:
-- /topic-research <クエリ> で調査を開始
+- /topic:research <クエリ> で調査を開始
 - /topic-task add <タスク> でタスクを追加
 ```
 
@@ -166,13 +166,13 @@ AskUserQuestion({
    タグ: {{TAGS}} #archived
    ```
 
-#### Step 4: index.md の更新
+#### Step 4: topics/index.md の更新
 
 1. 「最近のトピック」セクションからエントリを削除
 2. 「アーカイブ」セクションにエントリを追加:
    ```markdown
    ## アーカイブ
-   - [トピック名](topics/YYYYMMDD_slug/) - #archived
+   - [トピック名](topics/sessions/YYYYMMDD_slug/) - #archived
    ```
 
 #### Step 5: 完了報告
@@ -183,7 +183,7 @@ AskUserQuestion({
 📁 トピック: <トピック名>
 📅 アーカイブ日: YYYY-MM-DD
 
-アーカイブされたトピックは index.md の「アーカイブ」セクションから
+アーカイブされたトピックは topics/index.md の「アーカイブ」セクションから
 引き続きアクセスできます。
 ```
 
@@ -194,7 +194,7 @@ AskUserQuestion({
 新規作成時、同名のトピックが存在するか確認:
 
 ```bash
-ls -d topics/*_<slug> 2>/dev/null
+ls -d topics/sessions/*_<slug> 2>/dev/null
 ```
 
 存在する場合、`AskUserQuestion` で確認:
@@ -216,9 +216,9 @@ AskUserQuestion({
 
 ## エラーハンドリング
 
-- **テンプレート不在**: `templates/` フォルダのファイルがない場合はデフォルト内容で作成
+- **テンプレート不在**: `topics/templates/` フォルダのファイルがない場合はデフォルト内容で作成
 - **書き込み権限エラー**: エラーメッセージを表示し、権限確認を促す
-- **index.md 不在**: ファイルが存在しない場合は新規作成
+- **topics/index.md 不在**: ファイルが存在しない場合は新規作成
 
 ---
 
@@ -229,10 +229,10 @@ AskUserQuestion({
 - [ ] フォルダ名が `YYYYMMDD_slug` 形式
 - [ ] 3つのテンプレートファイルが生成済み
 - [ ] テンプレート変数がすべて置換済み
-- [ ] index.md に新規エントリが追加済み
+- [ ] topics/index.md に新規エントリが追加済み
 
 ### Archive モード
 
 - [ ] 未完了タスクの確認を実施
 - [ ] `#archived` タグが付与済み
-- [ ] index.md のセクション移動が完了
+- [ ] topics/index.md のセクション移動が完了

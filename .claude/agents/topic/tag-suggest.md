@@ -36,7 +36,7 @@ tools: Read, Write, Edit, Glob, Grep, LS, AskUserQuestion
 
 ```bash
 # 全トピックのconclusion.mdからタグ行を抽出
-grep -h "^タグ:" topics/*/conclusion.md 2>/dev/null | sed 's/タグ://' | tr ',' '\n' | tr ' ' '\n' | grep "^#" | sort | uniq
+grep -h "^タグ:" topics/sessions/*/conclusion.md 2>/dev/null | sed 's/タグ://' | tr ',' '\n' | tr ' ' '\n' | grep "^#" | sort | uniq
 ```
 
 収集結果を以下の形式で整理:
@@ -134,10 +134,10 @@ AskUserQuestion({
 タグ: #tag1, #tag2, #tag3
 ```
 
-また、必要に応じて `index.md` も更新:
+また、必要に応じて `topics/index.md` も更新:
 
 ```markdown
-- [トピック名](topics/YYYYMMDD_slug/) - #tag1 #tag2 #tag3
+- [トピック名](topics/sessions/YYYYMMDD_slug/) - #tag1 #tag2 #tag3
 ```
 
 ### Step 6: 完了報告
@@ -165,7 +165,7 @@ conclusion.md の「タグ:」行を直接編集してください。
 
 後からタグを追加する場合:
 - conclusion.md の「タグ:」行を編集
-- /topic-index でインデックスを更新
+- /topic:index でインデックスを更新
 ```
 
 ---
@@ -200,4 +200,4 @@ conclusion.md の「タグ:」行を直接編集してください。
 - [ ] ユーザーに選択肢を提示済み
 - [ ] 選択されたタグを正しく付与済み
 - [ ] conclusion.md が更新済み
-- [ ] index.md が更新済み（必要な場合）
+- [ ] topics/index.md が更新済み（必要な場合）

@@ -1,8 +1,11 @@
 ---
-description: 過去のトピックから関連するものを検索して表示
+name: topic-lookup
+description: "過去のトピックから関連するものを検索して表示"
+user-invokable: true
+disable-model-invocation: true
 ---
 
-# topic-lookup: トピック検索コマンド
+# topic:lookup: トピック検索コマンド
 
 受け取った文章に合致する過去のトピックを検索し、関連度順で5件ずつ表示するコマンドなのだ。
 
@@ -34,8 +37,8 @@ User Inputから以下を抽出:
 ### Step 1: 全トピックの conclusion.md を収集
 
 ```bash
-# topics/*/conclusion.md のパスを取得
-ls topics/*/conclusion.md 2>/dev/null
+# topics/sessions/*/conclusion.md のパスを取得
+ls topics/sessions/*/conclusion.md 2>/dev/null
 ```
 
 ### Step 2: 各 conclusion.md の内容を読み込み
@@ -75,7 +78,7 @@ ls topics/*/conclusion.md 2>/dev/null
 ---
 
 ### 1. <トピックタイトル>
-📁 [conclusion.md](topics/YYYYMMDD_slug/conclusion.md)
+📁 [conclusion.md](topics/sessions/YYYYMMDD_slug/conclusion.md)
 📅 作成日: YYYY-MM-DD
 🏷️ タグ: #tag1, #tag2
 
@@ -106,7 +109,7 @@ ls topics/*/conclusion.md 2>/dev/null
 📄 表示中: 1-5件目 / 全N件
 
 💡 次の5件を見るには:
-   /topic-lookup <同じクエリ> --page 2
+   /topic:lookup <同じクエリ> --page 2
 ```
 
 ---
@@ -121,7 +124,7 @@ ls topics/*/conclusion.md 2>/dev/null
 💡 ヒント:
 - キーワードを変えて検索してみるのだ
 - より一般的な用語で検索してみるのだ
-- /topic-start で新しい調査を開始するのだ
+- /topic:start で新しい調査を開始するのだ
 ```
 
 ---
@@ -134,7 +137,7 @@ ls topics/*/conclusion.md 2>/dev/null
 ✅ これが最後の結果なのだ！
 
 💡 別のキーワードで検索するには:
-   /topic-lookup <新しいクエリ>
+   /topic:lookup <新しいクエリ>
 ```
 
 ---

@@ -1,8 +1,11 @@
 ---
-description: 調査開始（トピック作成→調査計画→初期調査を連続実行）
+name: topic-start
+description: "調査開始（トピック作成→調査計画→初期調査を連続実行）"
+user-invokable: true
+disable-model-invocation: true
 ---
 
-# topic-start: 調査開始コマンド
+# topic:start: 調査開始コマンド
 
 新規調査トピックの作成から調査計画・初期調査までを**連続で**実行するコマンドなのだ。
 必要な確認（前提情報・タグ選択）だけを挟み、それ以外は自動で進めるのだ。
@@ -132,7 +135,7 @@ User Inputから以下を抽出:
 
 **通常モード:**
 ```
-/topic-start Claude Codeのhooks機能について調査 --tags #tech/ai,#claude
+/topic:start Claude Codeのhooks機能について調査 --tags #tech/ai,#claude
 ```
 → topic_name: "Claude Codeのhooks機能について調査"
 → tags: "#tech/ai,#claude"
@@ -140,7 +143,7 @@ User Inputから以下を抽出:
 
 **チーム並列ディスカッションモード（「ぞす」）:**
 ```
-/topic-start Claude Codeのhooks機能について調査ぞす --tags #tech/ai
+/topic:start Claude Codeのhooks機能について調査ぞす --tags #tech/ai
 ```
 → topic_name: "Claude Codeのhooks機能について調査"
 → tags: "#tech/ai"
@@ -149,7 +152,7 @@ User Inputから以下を抽出:
 
 **チームメッセージディスカッションモード（「ぞすめ」）:**
 ```
-/topic-start マイクロサービス vs モノリスの比較検討ぞすめ
+/topic:start マイクロサービス vs モノリスの比較検討ぞすめ
 ```
 → topic_name: "マイクロサービス vs モノリスの比較検討"
 → tags: (なし)
@@ -157,7 +160,7 @@ User Inputから以下を抽出:
 → discussion_mode: "message"
 
 ```
-/topic-start Claude Code vs Cursor比較ぞすめ --tags #tech/ai
+/topic:start Claude Code vs Cursor比較ぞすめ --tags #tech/ai
 ```
 → topic_name: "Claude Code vs Cursor比較"
 → tags: "#tech/ai"
@@ -166,7 +169,7 @@ User Inputから以下を抽出:
 
 **Devil's Advocateモード（「ぞすでびる」）:**
 ```
-/topic-start React vs Vue どっちが良いかぞすでびる
+/topic:start React vs Vue どっちが良いかぞすでびる
 ```
 → topic_name: "React vs Vue どっちが良いか"
 → tags: (なし)
@@ -174,7 +177,7 @@ User Inputから以下を抽出:
 → discussion_mode: "devil"
 
 ```
-/topic-start TypeScript導入の是非についてぞすでびる --tags #tech/dev
+/topic:start TypeScript導入の是非についてぞすでびる --tags #tech/dev
 ```
 → topic_name: "TypeScript導入の是非について"
 → tags: "#tech/dev"
@@ -200,9 +203,9 @@ Task({
 
     実行内容:
     1. トピック名をslug化
-    2. フォルダ作成: topics/YYYYMMDD_<slug>/
+    2. フォルダ作成: topics/sessions/YYYYMMDD_<slug>/
     3. テンプレートファイル生成
-    4. index.md を更新
+    4. topics/index.md を更新
   `
 })
 ```
@@ -360,12 +363,15 @@ Task({
        ---
        *最終更新: YYYY-MM-DD HH:MM*
 
-    4. 完了した調査項目を報告
+    4. **<topic_folder>/tasks.md の完了した各調査項目のチェックボックスを `- [ ]` → `- [x]` に更新すること**
+       （tasks.md に記載された各調査項目のうち、実行したものを `[x]` に変更する）
+
+    5. 完了報告（tasks.md を更新済みであることを添えること）
   `
 })
 ```
 
-→ **Agentの完了を待ってから Phase 5 へ進む**
+→ **Agentの完了を待ってから Phase 5 へ進む**（tasks.md の調査項目が全て [x] になっていることを確認してから進む）
 
 ---
 
@@ -531,7 +537,10 @@ Task({
 
     3. research.md にも調査メモを追記（タイムスタンプ付き、[researcher-1]プレフィックス付き）
 
-    4. **調査完了後、チームリーダーに SendMessage で完了を報告すること**
+    4. **完了報告前に <topic_folder>/tasks.md の自分の担当タスク行を更新すること**
+       （`- [ ] [Round1] researcher-1 独立リサーチ` の行を `- [x] [Round1] researcher-1 独立リサーチ` に変更する）
+
+    5. **調査完了後、チームリーダーに SendMessage で完了を報告すること**（tasks.md 更新済みであることを添える）
 
     **重要**: 他のメンバーの結果は参照せず、独立して調査すること。
   `
@@ -1166,7 +1175,7 @@ Task({
 
     4. 選択されたタグを付与
        - conclusion.md に追記
-       - index.md を更新
+       - topics/index.md を更新
   `
 })
 ```
@@ -1197,13 +1206,13 @@ Task({
    💡 次のステップ:
 
    【追加調査をする場合】
-   - /topic-research <追加クエリ> で追加調査
-     例: /topic-research <具体的な追加調査項目>
+   - /topic:research <追加クエリ> で追加調査
+     例: /topic:research <具体的な追加調査項目>
      ※ 追加調査を実行すると、research.md に調査メモが追記され、
        conclusion.md にも追加調査セクションが追記されます
 
    【調査を終了する場合】
-   - /topic-archive でトピックをアーカイブ
+   - /topic:archive でトピックをアーカイブ
    ```
 
 ### チームディスカッションモードの場合（Phase 6T）
@@ -1222,12 +1231,12 @@ Task({
    💡 次のステップ:
 
    【追加調査をする場合】
-   - /topic-research <追加クエリ> で追加調査
+   - /topic:research <追加クエリ> で追加調査
      ※ 追加調査を実行すると、research.md に調査メモが追記され、
        conclusion.md にも追加調査セクションが追記されます
 
    【調査を終了する場合】
-   - /topic-archive でトピックをアーカイブ
+   - /topic:archive でトピックをアーカイブ
    ```
 
 ---
@@ -1240,7 +1249,7 @@ Task({
 📁 調査トピック作成完了
 
 トピック: <テーマ名>
-フォルダ: topics/YYYYMMDD_slug/
+フォルダ: topics/sessions/YYYYMMDD_slug/
 
 🏷️ タグ:
 - <付与されたタグ1>
@@ -1260,18 +1269,18 @@ Task({
 <暫定結論の要約>
 
 🔍 追加調査の提案:
-- <提案1>: /topic-research <クエリ例>
-- <提案2>: /topic-research <クエリ例>
+- <提案1>: /topic:research <クエリ例>
+- <提案2>: /topic:research <クエリ例>
 
 💡 次のステップ:
-- /topic-research <追加クエリ> で追加調査（conclusion.mdにも追記）
-- /topic-archive で調査を終了
+- /topic:research <追加クエリ> で追加調査（conclusion.mdにも追記）
+- /topic:archive で調査を終了
 
 📂 関連ファイル:
-- [research.md](topics/YYYYMMDD_slug/research.md) - 調査記録
-- [conclusion.md](topics/YYYYMMDD_slug/conclusion.md) - 暫定結論
-- [tasks.md](topics/YYYYMMDD_slug/tasks.md) - タスクリスト
-- [index.md](index.md) - トピックインデックス
+- [research.md](topics/sessions/YYYYMMDD_slug/research.md) - 調査記録
+- [conclusion.md](topics/sessions/YYYYMMDD_slug/conclusion.md) - 暫定結論
+- [tasks.md](topics/sessions/YYYYMMDD_slug/tasks.md) - タスクリスト
+- [index.md](topics/index.md) - トピックインデックス
 ```
 
 ### チーム並列ディスカッションモード（「ぞす」）
@@ -1280,7 +1289,7 @@ Task({
 📁 チームディスカッション調査完了
 
 トピック: <テーマ名>
-フォルダ: topics/YYYYMMDD_slug/
+フォルダ: topics/sessions/YYYYMMDD_slug/
 モード: チーム並列ディスカッション（2エージェント）
 
 🏷️ タグ:
@@ -1307,18 +1316,18 @@ Task({
 - <課題2>
 
 💡 次のステップ:
-- /topic-research <追加クエリ> で追加調査（conclusion.mdにも追記）
-- /topic-archive で調査を終了
+- /topic:research <追加クエリ> で追加調査（conclusion.mdにも追記）
+- /topic:archive で調査を終了
 
 📂 関連ファイル:
-- [1-<slug>.md](topics/YYYYMMDD_slug/1-<slug>.md) - Agent 1 調査結果
-- [2-<slug>.md](topics/YYYYMMDD_slug/2-<slug>.md) - Agent 2 調査結果
-- [1-discussion.md](topics/YYYYMMDD_slug/1-discussion.md) - Agent 1 ディスカッション
-- [2-discussion.md](topics/YYYYMMDD_slug/2-discussion.md) - Agent 2 ディスカッション
-- [conclusion.md](topics/YYYYMMDD_slug/conclusion.md) - 最終結論
-- [research.md](topics/YYYYMMDD_slug/research.md) - 調査記録
-- [tasks.md](topics/YYYYMMDD_slug/tasks.md) - タスクリスト
-- [index.md](index.md) - トピックインデックス
+- [1-<slug>.md](topics/sessions/YYYYMMDD_slug/1-<slug>.md) - Agent 1 調査結果
+- [2-<slug>.md](topics/sessions/YYYYMMDD_slug/2-<slug>.md) - Agent 2 調査結果
+- [1-discussion.md](topics/sessions/YYYYMMDD_slug/1-discussion.md) - Agent 1 ディスカッション
+- [2-discussion.md](topics/sessions/YYYYMMDD_slug/2-discussion.md) - Agent 2 ディスカッション
+- [conclusion.md](topics/sessions/YYYYMMDD_slug/conclusion.md) - 最終結論
+- [research.md](topics/sessions/YYYYMMDD_slug/research.md) - 調査記録
+- [tasks.md](topics/sessions/YYYYMMDD_slug/tasks.md) - タスクリスト
+- [index.md](topics/index.md) - トピックインデックス
 ```
 
 ### チームメッセージディスカッションモード（「ぞすめ」）
@@ -1327,7 +1336,7 @@ Task({
 📁 チームメッセージディスカッション調査完了
 
 トピック: <テーマ名>
-フォルダ: topics/YYYYMMDD_slug/
+フォルダ: topics/sessions/YYYYMMDD_slug/
 モード: チームメッセージディスカッション（2エージェント・メッセージ交換）
 
 🏷️ タグ:
@@ -1356,17 +1365,17 @@ Task({
 - <課題2>
 
 💡 次のステップ:
-- /topic-research <追加クエリ> で追加調査（conclusion.mdにも追記）
-- /topic-archive で調査を終了
+- /topic:research <追加クエリ> で追加調査（conclusion.mdにも追記）
+- /topic:archive で調査を終了
 
 📂 関連ファイル:
-- [1-<slug>.md](topics/YYYYMMDD_slug/1-<slug>.md) - researcher-1 調査結果
-- [2-<slug>.md](topics/YYYYMMDD_slug/2-<slug>.md) - researcher-2 調査結果
-- [discussion.md](topics/YYYYMMDD_slug/discussion.md) - メッセージ交換議論記録
-- [conclusion.md](topics/YYYYMMDD_slug/conclusion.md) - 最終結論
-- [research.md](topics/YYYYMMDD_slug/research.md) - 調査記録
-- [tasks.md](topics/YYYYMMDD_slug/tasks.md) - タスクリスト
-- [index.md](index.md) - トピックインデックス
+- [1-<slug>.md](topics/sessions/YYYYMMDD_slug/1-<slug>.md) - researcher-1 調査結果
+- [2-<slug>.md](topics/sessions/YYYYMMDD_slug/2-<slug>.md) - researcher-2 調査結果
+- [discussion.md](topics/sessions/YYYYMMDD_slug/discussion.md) - メッセージ交換議論記録
+- [conclusion.md](topics/sessions/YYYYMMDD_slug/conclusion.md) - 最終結論
+- [research.md](topics/sessions/YYYYMMDD_slug/research.md) - 調査記録
+- [tasks.md](topics/sessions/YYYYMMDD_slug/tasks.md) - タスクリスト
+- [index.md](topics/index.md) - トピックインデックス
 ```
 
 ### Devil's Advocateモード（「ぞすでびる」）
@@ -1375,7 +1384,7 @@ Task({
 📁 Devil's Advocate議論調査完了
 
 トピック: <テーマ名>
-フォルダ: topics/YYYYMMDD_slug/
+フォルダ: topics/sessions/YYYYMMDD_slug/
 モード: Devil's Advocate（3エージェント議論）
 
 🏷️ タグ:
@@ -1405,18 +1414,18 @@ Task({
 - <課題2>
 
 💡 次のステップ:
-- /topic-research <追加クエリ> で追加調査（conclusion.mdにも追記）
-- /topic-archive で調査を終了
+- /topic:research <追加クエリ> で追加調査（conclusion.mdにも追記）
+- /topic:archive で調査を終了
 
 📂 関連ファイル:
-- [1-<slug>.md](topics/YYYYMMDD_slug/1-<slug>.md) - planner 調査結果
-- [2-<slug>.md](topics/YYYYMMDD_slug/2-<slug>.md) - skeptic 調査結果
-- [3-<slug>.md](topics/YYYYMMDD_slug/3-<slug>.md) - moderator 調査結果
-- [discussion.md](topics/YYYYMMDD_slug/discussion.md) - Devil's Advocate議論記録
-- [conclusion.md](topics/YYYYMMDD_slug/conclusion.md) - 最終結論
-- [research.md](topics/YYYYMMDD_slug/research.md) - 調査記録
-- [tasks.md](topics/YYYYMMDD_slug/tasks.md) - タスクリスト
-- [index.md](index.md) - トピックインデックス
+- [1-<slug>.md](topics/sessions/YYYYMMDD_slug/1-<slug>.md) - planner 調査結果
+- [2-<slug>.md](topics/sessions/YYYYMMDD_slug/2-<slug>.md) - skeptic 調査結果
+- [3-<slug>.md](topics/sessions/YYYYMMDD_slug/3-<slug>.md) - moderator 調査結果
+- [discussion.md](topics/sessions/YYYYMMDD_slug/discussion.md) - Devil's Advocate議論記録
+- [conclusion.md](topics/sessions/YYYYMMDD_slug/conclusion.md) - 最終結論
+- [research.md](topics/sessions/YYYYMMDD_slug/research.md) - 調査記録
+- [tasks.md](topics/sessions/YYYYMMDD_slug/tasks.md) - タスクリスト
+- [index.md](topics/index.md) - トピックインデックス
 ```
 
 ---
@@ -1487,37 +1496,37 @@ Task({
 ### 通常モード
 
 ```
-/topic-start Claude Codeのhooks機能について調査 --tags #tech/ai,#claude
+/topic:start Claude Codeのhooks機能について調査 --tags #tech/ai,#claude
 ```
 
 ### チーム並列ディスカッションモード（「ぞす」）
 
 ```
-/topic-start マイクロサービス vs モノリスの比較検討ぞす
+/topic:start マイクロサービス vs モノリスの比較検討ぞす
 ```
 
 ```
-/topic-start Claude Code vs Cursor、どっちがいいか調査ぞす --tags #tech/ai
+/topic:start Claude Code vs Cursor、どっちがいいか調査ぞす --tags #tech/ai
 ```
 
 ### チームメッセージディスカッションモード（「ぞすめ」）
 
 ```
-/topic-start マイクロサービス vs モノリスの比較検討ぞすめ
+/topic:start マイクロサービス vs モノリスの比較検討ぞすめ
 ```
 
 ```
-/topic-start Claude Code vs Cursor、どっちがいいか調査ぞすめ --tags #tech/ai
+/topic:start Claude Code vs Cursor、どっちがいいか調査ぞすめ --tags #tech/ai
 ```
 
 ### Devil's Advocateモード（「ぞすでびる」）
 
 ```
-/topic-start React vs Vue どっちが良いかぞすでびる
+/topic:start React vs Vue どっちが良いかぞすでびる
 ```
 
 ```
-/topic-start TypeScript導入の是非についてぞすでびる --tags #tech/dev
+/topic:start TypeScript導入の是非についてぞすでびる --tags #tech/dev
 ```
 
 ---
